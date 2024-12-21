@@ -77,6 +77,16 @@ app.get('/plinko', (req, res) => {
     }
 });
 
+// Coin Flip Duel Page
+app.get('/coinflip', (req, res) => {
+    const user = req.session.user;
+    if (user) {
+        res.render('coinflip', { user });
+    } else {
+        res.redirect('/login');
+    }
+});
+
 // Logout Route
 app.post('/logout', (req, res) => {
     req.session.destroy();
@@ -371,13 +381,62 @@ app.post('/plinko', (req, res) => {
     });
 });
 
+// Coin Flip Duel Logic
+app.post('/coinflip', (req, res) => {
+    const user = req.session.user;
+    const { betAmount, choice } = req.body;
+
+    if (!user) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const bet = parseInt(betAmount, 10);
+
+    // Validate bet amount
+    if (bet > user.balance || bet <= 0) {
+        return res.json({
+            newBalance: user.balance,
+            message: 'Invalid bet amount or insufficient balance.'
+        });
+    }
+
+    // Deduct the bet amount
+    user.balance -= bet;
+
+    // Simulate the coin flip
+    const outcome = Math.random() < 0.5 ? 'heads' : 'tails';
+    let winnings = 0;
+
+    if (choice === outcome) {
+        winnings = bet * 2;
+        user.balance += winnings;
+    }
+
+    // Update balance in the database
+    db.run(`UPDATE users SET balance = ? WHERE id = ?`, [user.balance, user.id], (err) => {
+        if (err) {
+            console.error(err.message);
+            return res.json({
+                newBalance: user.balance,
+                message: 'An error occurred while updating your balance.'
+            });
+        }
+
+        res.json({
+            newBalance: user.balance,
+            message: choice === outcome ? `You won ${winnings} coins!` : 'You lost your bet.',
+            outcome
+        });
+    });
+});
+
 function simulatePlinkoDrop() {
     const slots = [
-        { slot: '1', multiplier: 0.5, probability: 50 },
-        { slot: '2', multiplier: 1, probability: 31 },
-        { slot: '3', multiplier: 1.5, probability: 10 },
-        { slot: '4', multiplier: 5, probability: 5 },
-        { slot: '5', multiplier: 14, probability: 1.5 }
+        { slot: '1', multiplier: 0.5, probability: 71.5 },
+        { slot: '2', multiplier: 1, probability: 20 },
+        { slot: '3', multiplier: 1.5, probability: 5 },
+        { slot: '4', multiplier: 5, probability: 2 },
+        { slot: '5', multiplier: 14, probability: 0.5 }
     ];
 
     const random = Math.random() * 100;
