@@ -373,10 +373,10 @@ app.post('/plinko', (req, res) => {
 
 function simulatePlinkoDrop() {
     const slots = [
-        { slot: '1', multiplier: 0.5, probability: 60 },
-        { slot: '2', multiplier: 1, probability: 25 },
-        { slot: '3', multiplier: 1.5, probability: 8 },
-        { slot: '4', multiplier: 5, probability: 4 },
+        { slot: '1', multiplier: 0.5, probability: 50 },
+        { slot: '2', multiplier: 1, probability: 31 },
+        { slot: '3', multiplier: 1.5, probability: 10 },
+        { slot: '4', multiplier: 5, probability: 5 },
         { slot: '5', multiplier: 14, probability: 1.5 }
     ];
 
