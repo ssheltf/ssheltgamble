@@ -436,7 +436,7 @@ function simulatePlinkoDrop() {
         { slot: '2', multiplier: 1, probability: 35 },
         { slot: '3', multiplier: 1.5, probability: 10 },
         { slot: '4', multiplier: 5, probability: 5 },
-        { slot: '5', multiplier: 14, probability: 0.5 }
+        { slot: '5', multiplier: 14, probability: 1.5 }
     ];
 
     const random = Math.random() * 100;
