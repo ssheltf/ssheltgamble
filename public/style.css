@@ -1,0 +1,508 @@
+/* General Styling */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #1e3a66;
+    color: white;
+    opacity: 0; /* Start with opacity 0 */
+    animation: fadeIn 0.5s ease-in-out forwards; /* Apply fade-in animation */
+    animation-delay: 0.2s; /* Delay the header animation slightly */
+}
+
+/* Username Glow Effect */
+.username {
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #ffffff;
+}
+
+.username {
+    font-weight: bold;
+    color: rgb(255, 0, 0);
+}
+
+/* Fade-In Animation */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* Header Styling */
+.header-left {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.header-left {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.header-right {
+    font-size: 1.2rem;
+}
+
+/* Balance Display Styling */
+.balance-display {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+/* Game Container Styling */
+.game-container {
+    display: flex;
+    height: calc(100vh - 60px); /* Full height minus header */
+    opacity: 0; /* Start with opacity 0 */
+    animation: fadeIn 0.5s ease-in-out forwards; /* Apply fade-in animation */
+    animation-delay: 0.2s; /* Delay the header animation slightly */
+    
+}
+
+/* Sidebar Styling */
+.game-tab {
+    width: 250px;
+    background: linear-gradient(to right, #1e3a66, rgba(30, 58, 102, 0)); /* Smooth gradient transition */
+    height: 100vh;
+    padding: 20px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* Subtle shadow for depth */
+    opacity: 0; /* Start with opacity 0 */
+    animation: fadeIn 0.5s ease-in-out forwards; /* Apply fade-in animation */
+    animation-delay: 0.2s; /* Delay the header animation slightly */
+}
+
+.game-tab ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0 0 20px; /* Offset the list from the edge */
+}
+
+.game-tab li {
+    margin: 15px 0;
+}
+
+.game-tab a {
+    text-decoration: none;
+    color: white;
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    display: block;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+}
+
+.game-tab a:hover, .game-tab a.active {
+    background-color: #ff7300;
+    color: white;
+    transform: scale(1.05);
+}
+
+/* Game Content Styling */
+.game-content {
+    margin-left: 270px; /* Offset by sidebar width */
+    padding: 30px;
+    color: white;
+    transition: all 0.3s ease;
+    opacity: 0; /* Start with opacity 0 */
+    animation: fadeIn 0.5s ease-in-out forwards; /* Apply fade-in animation */
+    animation-delay: 0.2s; /* Delay the header animation slightly */
+}
+
+.game-content h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: white;
+}
+
+/* Balance Display Styling */
+.header-right {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+/* Additional existing styles retained... */
+
+
+/* Game Section Styling */
+.game-content {
+    margin-left: 270px; /* Offset by the sidebar width */
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.game-content h1 {
+    font-size: 2rem;
+    color: white;
+    margin-bottom: 20px;
+}
+
+/* Game Content Styling */
+.game-content {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-content h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+/* Betting Form Styling */
+form {
+    text-align: center;
+    margin-top: 20px;
+}
+
+form label {
+    font-size: 1.2rem;
+    display: block;
+    margin-bottom: 10px;
+}
+
+form input,
+form select {
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+    width: 250px;
+}
+
+form button {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    background-color: #ff7300;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+form button:hover {
+    background-color: #e86700;
+    transform: scale(1.05);
+}
+
+/* Result Styling */
+#result {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    color: white;
+}
+
+/* Error Page Styling */
+.error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+}
+
+.error-container h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: #ff4d4d;
+}
+
+.error-container p {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.error-container .btn {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    background-color: #ff7300;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.error-container .btn:hover {
+    background-color: #e86700;
+    transform: scale(1.05);
+}
+
+/* Header Styling */
+header {
+    display: none; /* Hide header for now */
+}
+
+/* Home Page Styling */
+.home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 60px); /* Subtract header height */
+}
+
+.home-container button {
+    margin: 10px;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    background-color: #ff7300;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.home-container button:hover {
+    background-color: #e86700;
+    transform: scale(1.05);
+}
+
+/* Form Container Styling */
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+}
+
+/* Form Styling */
+.large-form {
+    background-color: rgba(255, 255, 255, 0.1); /* Glass effect */
+    padding: 40px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px); /* Glass effect */
+    -webkit-backdrop-filter: blur(10px); /* For Safari */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    width: 400px;
+    text-align: center;
+}
+
+.large-form h2 {
+    font-size: 2.5rem; /* Larger heading */
+    margin-bottom: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+.large-form label {
+    font-size: 1.2rem; /* Larger labels */
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    color: white;
+}
+
+.large-form input {
+    width: 100%;
+    padding: 15px; /* Larger input fields */
+    margin-bottom: 20px;
+    font-size: 1.2rem; /* Larger text inside inputs */
+    border: none;
+    border-radius: 8px;
+    outline: none;
+}
+
+/* Button Group */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    gap: 10px; /* Add spacing between buttons */
+}
+
+button.btn {
+    padding: 15px 30px; /* Larger button size */
+    font-size: 1.2rem;
+    font-weight: bold;
+    background-color: #ff7300;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+button.btn:hover {
+    background-color: #e86700;
+    transform: scale(1.1); /* Slight hover scale */
+}
+
+button.back-btn {
+    background-color: #f0a500;
+}
+
+button.back-btn:hover {
+    background-color: #e89400;
+}
+
+/* Roulette Game Styling */
+#roulette-game {
+    text-align: center;
+}
+
+#roulette-game h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+#roulette-game form {
+    margin-bottom: 20px;
+}
+
+#roulette-game select, #roulette-game input {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+}
+
+#roulette-game button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: #ff7300;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+#roulette-game button:hover {
+    background-color: #e86700;
+    transform: scale(1.05);
+}
+
+#roulette-game #result {
+    margin-top: 20px;
+    font-size: 1.2rem;
+}
+
+.slider-container {
+    overflow: hidden;
+    width: 100%; /* Use 100% width to make it responsive */
+    max-width: 450px; /* Optional: Set a max-width for larger screens */
+    position: relative;
+    margin: 0 auto; /* Center the container */
+    border: 2px solid #ccc; /* Add border */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+}
+
+.slider-track {
+    display: flex;
+    transition: transform 3s cubic-bezier(0.25, 1, 0.5, 1); /* Smooth sliding effect */
+}
+
+.slider-item {
+    flex: 0 0 33.33%; /* Use percentage width for responsiveness */
+    height: 100px; /* Set fixed height */
+    line-height: 100px; /* Center text vertically */
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    border-right: 1px solid #ccc; /* Optional border between items */
+}
+
+/* Color Backgrounds */
+.slider-item.red {
+    background-color: #e74c3c;
+}
+
+.slider-item.black {
+    background-color: #2c3e50;
+}
+
+.slider-item.green {
+    background-color: #27ae60;
+}
+
+/* Wick Style */
+.wick {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 100px;
+    background-color: rgb(255, 255, 255);
+    z-index: 10;
+}
+
+.plinko-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#plinko-form {
+    margin-top: 20px;
+}
+
+#plinko-form input {
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#plinko-form button {
+    padding: 10px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#game-message {
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: green;
+}
+
+#plinko-outcome {
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: blue;
+}

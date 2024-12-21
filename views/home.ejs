@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xiaojie Gamble</title>
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"> <!-- Add Google Font -->
+</head>
+<body>
+    <header>
+        <div class="header-left">Xiaojie Gamble</div>
+        <div class="header-right">
+            <a href="/">Home</a>
+            <a href="/leaderboard">Leaderboard</a>
+            <form action="/logout" method="POST" style="display:inline;">
+                <button type="submit" class="btn">Logout</button>
+            </form>
+        </div>
+    </header>
+    <main class="home-container">
+        <h2 class="welcome-message">Welcome, <span class="username"><%= user.username %></span>! Your balance: <span id="balance"><%= user.balance %></span> coins</h2>
+        <button onclick="location.href='/game1'" class="btn">Play</button>
+        <form action="/logout" method="POST" style="display:inline;">
+            <button type="submit" class="btn">Logout</button>
+        </form>
+    </main>
+</body>
+</html>

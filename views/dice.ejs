@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice - Xiaojie Gamble</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        .dice-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            margin-top: 20px;
+        }
+
+        .dice {
+            width: 100px;
+            height: 100px;
+            font-size: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #fff;
+            border-radius: 10px;
+            background-color: #7785AC;
+            color: white;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .dice.roll {
+            animation: rollDice 1s ease-in-out;
+        }
+
+        @keyframes rollDice {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(90deg); }
+            50% { transform: rotate(180deg); }
+            75% { transform: rotate(270deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="gamepage">
+    <header>
+        <div class="header-left">Xiaojie Gamble</div>
+    </header>
+
+    <div class="top-right-container">
+        <div class="balance-display">
+            Balance: <span id="balance"><%= user.balance %></span> coins
+        </div>
+        <button class="back-btn" onclick="window.location.href='/'">Back</button>
+    </div>
+
+    <div class="game-container">
+        <!-- Sidebar -->
+        <aside class="game-tab">
+            <ul>
+                <li><a href="/game1">Roulette</a></li>
+                <li><a href="/dice" class="active">Dice</a></li>
+                <li><a href="/plinko">Plinko</a></li> <!-- Updated to navigate to /plinko -->
+            </ul>
+        </aside>
+
+        <!-- Game Content -->
+        <main class="game-content">
+            <h1>Dice</h1>
+
+            <!-- Dice Game Content -->
+            <form id="dice-form">
+                <label for="bet-amount">Bet Amount:</label>
+                <input type="number" id="bet-amount" name="bet-amount" placeholder="Enter coins to bet" required>
+
+                <label for="prediction">Prediction:</label>
+                <select id="prediction" name="prediction" required>
+                    <option value="higher">Higher</option>
+                    <option value="lower">Lower</option>
+                </select>
+
+                <label for="target-number">Target Number (1-6):</label>
+                <input type="number" id="target-number" name="target-number" min="1" max="6" required>
+
+                <button type="submit" class="btn">Place Bet</button>
+            </form>
+
+            <!-- Dice Animation -->
+            <div class="dice-container">
+                <div id="dice" class="dice">1</div>
+            </div>
+
+            <!-- Result Display -->
+            <div id="result"></div>
+        </main>
+    </div>
+
+    <script>
+        // Add an event listener to the dice form
+        const diceForm = document.getElementById('dice-form');
+        diceForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const betAmount = document.getElementById('bet-amount').value;
+            const prediction = document.getElementById('prediction').value;
+            const targetNumber = document.getElementById('target-number').value;
+
+            try {
+                const response = await fetch('/dice', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ betAmount, prediction, targetNumber }),
+                });
+
+                const result = await response.json();
+
+                // Update balance and display the result
+                document.getElementById('balance').textContent = result.newBalance;
+                document.getElementById('result').innerHTML = `<p>${result.message}</p>`;
+
+                // Animate the dice roll
+                const dice = document.getElementById('dice');
+                dice.classList.add('roll');
+                setTimeout(() => {
+                    dice.classList.remove('roll');
+                    dice.textContent = result.diceRoll;
+                }, 1000); // Match the duration of the animation
+            } catch (error) {
+                document.getElementById('result').innerHTML = `<p>Error: Unable to process your bet. Please try again.</p>`;
+            }
+        });
+    </script>
+</body>
+</html>

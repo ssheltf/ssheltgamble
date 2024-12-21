@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plinko - Xiaojie Gamble</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        .plinko-board {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 20px;
+            position: relative;
+            height: 400px;
+        }
+
+        .plinko-row {
+            display: flex;
+            justify-content: center;
+        }
+
+        .plinko-slot, .plinko-dot {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #fff;
+            border-radius: 50%;
+            margin: 5px;
+            background-color: #1e3a66;
+        }
+
+        .plinko-ball {
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: transform 2s ease-in-out;
+            display: none; /* Hide the ball initially */
+        }
+
+        .plinko-multiplier {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #fff;
+            border-radius: 10px;
+            margin: 5px;
+            background-color: #1e3a66;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="gamepage">
+    <header>
+        <div class="header-left">Xiaojie Gamble</div>
+    </header>
+
+    <div class="top-right-container">
+        <div class="balance-display">
+            Balance: <span id="balance"><%= user.balance %></span> coins
+        </div>
+    </div>
+
+    <div class="game-container">
+        <!-- Sidebar -->
+        <aside class="game-tab">
+            <ul>
+                <li><a href="/game1">Roulette</a></li>
+                <li><a href="/dice">Dice</a></li>
+                <li><a href="/plinko" class="active">Plinko</a></li>
+            </ul>
+        </aside>
+
+        <!-- Game Content -->
+        <main class="game-content">
+            <h1>Plinko</h1>
+            <div id="game-message"></div>
+            <form id="plinko-form">
+                <input type="number" id="bet-amount" placeholder="Enter bet amount" required>
+                <button type="submit" class="btn">Play</button>
+            </form>
+            <div id="plinko-outcome"></div>
+            <div class="plinko-board" id="plinko-board">
+                <!-- Plinko board dots in a pyramid shape -->
+                <div class="plinko-row">
+                    <div class="plinko-dot"></div>
+                </div>
+                <div class="plinko-row">
+                    <div class="plinko-dot"></div>
+                    <div class="plinko-dot"></div>
+                </div>
+                <div class="plinko-row">
+                    <div class="plinko-dot"></div>
+                    <div class="plinko-dot"></div>
+                    <div class="plinko-dot"></div>
+                </div>
+                <div class="plinko-row">
+                    <div class="plinko-dot"></div>
+                    <div class="plinko-dot"></div>
+                    <div class="plinko-dot"></div>
+                    <div class="plinko-dot"></div>
+                </div>
+                <div class="plinko-row">
+                    <div class="plinko-dot"></div>
+                    <div class="plinko-dot"></div>
+                    <div class="plinko-dot"></div>
+                    <div class="plinko-dot"></div>
+                    <div class="plinko-dot"></div>
+                </div>
+                <div class="plinko-row">
+                    <div class="plinko-dot"></div>
+                    <div class="plinko-dot"></div>
+                    <div class="plinko-dot"></div>
+                    <div class="plinko-dot"></div>
+                    <div class="plinko-dot"></div>
+                    <div class="plinko-dot"></div>
+                </div>
+                <div class="plinko-row">
+                    <div class="plinko-dot"></div>
+                    <div class="plinko-dot"></div>
+                    <div class="plinko-dot"></div>
+                    <div class="plinko-dot"></div>
+                    <div class="plinko-dot"></div>
+                    <div class="plinko-dot"></div>
+                    <div class="plinko-dot"></div>
+                </div>
+                <!-- Plinko board multipliers -->
+                <div class="plinko-row">
+                    <div class="plinko-multiplier" data-multiplier="14">14x</div>
+                    <div class="plinko-multiplier" data-multiplier="5">5x</div>
+                    <div class="plinko-multiplier" data-multiplier="1.5">1.5x</div>
+                    <div class="plinko-multiplier" data-multiplier="1">1x</div>
+                    <div class="plinko-multiplier" data-multiplier="0.5">0.5x</div>
+                    <div class="plinko-multiplier" data-multiplier="0.5">0.5x</div>
+                    <div class="plinko-multiplier" data-multiplier="0.5">0.5x</div>
+                    <div class="plinko-multiplier" data-multiplier="1">1x</div>
+                    <div class="plinko-multiplier" data-multiplier="1.5">1.5x</div>
+                    <div class="plinko-multiplier" data-multiplier="5">5x</div>
+                    <div class="plinko-multiplier" data-multiplier="14">14x</div>
+                </div>
+            </div>
+            <div class="plinko-ball" id="plinko-ball"></div>
+        </main>
+    </div>
+
+    <script>
+        const form = document.getElementById('plinko-form');
+        const betAmountInput = document.getElementById('bet-amount');
+        const gameMessage = document.getElementById('game-message');
+        const plinkoOutcome = document.getElementById('plinko-outcome');
+        const plinkoBall = document.getElementById('plinko-ball');
+        const plinkoBoard = document.getElementById('plinko-board');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const betAmount = betAmountInput.value;
+
+            fetch('/plinko', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ betAmount })
+            })
+            .then(response => response.json())
+            .then(data => {
+                gameMessage.textContent = data.message;
+                plinkoOutcome.textContent = `Outcome: Slot ${data.outcome}`;
+                document.getElementById('balance').textContent = data.newBalance;
+
+                // Animate the ball drop
+                const slotIndex = parseInt(data.outcome) - 1;
+                const slot = plinkoBoard.querySelectorAll('.plinko-multiplier')[slotIndex];
+                const slotRect = slot.getBoundingClientRect();
+                const boardRect = plinkoBoard.getBoundingClientRect();
+
+                plinkoBall.style.display = 'block'; // Show the ball
+                plinkoBall.style.transition = 'none';
+                plinkoBall.style.transform = 'translateX(-50%)'; // Reset position
+                setTimeout(() => {
+                    plinkoBall.style.transition = 'transform 2s ease-in-out';
+                    plinkoBall.style.transform = `translate(${slotRect.left - boardRect.left}px, ${slotRect.top - boardRect.top}px)`;
+                }, 100); // Allow time for reset
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>

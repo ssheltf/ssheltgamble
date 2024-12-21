@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games - Xiaojie Gamble</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body class="gamepage">
+    <header>
+        <div class="header-left">Xiaojie Gamble</div>
+    </header>
+
+    <div class="top-right-container">
+        <div class="balance-display">
+            Balance: <span id="balance"><%= user.balance %></span> coins
+        </div>
+    </div>
+
+    <div class="game-container">
+        <!-- Sidebar -->
+        <aside class="game-tab">
+            <ul>
+                <li><a href="/game1" class="active">Roulette</a></li>
+                <li><a href="/dice">Dice</a></li>
+                <li><a href="/plinko">Plinko</a></li> <!-- Updated to navigate to /plinko -->
+            </ul>
+        </aside>
+
+        <!-- Game Content -->
+        <main class="game-content">
+            <h1>Roulette</h1>
+
+            <!-- Slider Animation -->
+            <div class="slider-container">
+                <div id="slider-track" class="slider-track">
+                    <div class="slider-item red">Red</div>
+                    <div class="slider-item black">Black</div>
+                    <div class="slider-item green">Green</div>
+                    <div class="slider-item red">Red</div>
+                    <div class="slider-item black">Black</div>
+                    <div class="slider-item green">Green</div>
+                    <div class="slider-item red">Red</div>
+                    <div class="slider-item black">Black</div>
+                    <div class="slider-item green">Green</div>
+                    <div class="slider-item red">Red</div>
+                    <div class="slider-item black">Black</div>
+                    <div class="slider-item green">Green</div>
+                    <div class="slider-item red">Red</div>
+                    <div class="slider-item black">Black</div>
+                    <div class="slider-item green">Green</div>
+                    <div class="slider-item red">Red</div>
+                    <div class="slider-item black">Black</div>
+                    <div class="slider-item green">Green</div>
+                    <div class="slider-item red">Red</div>
+                    <div class="slider-item black">Black</div>
+                    <div class="slider-item green">Green</div>
+                    <div class="slider-item red">Red</div>
+                    <div class="slider-item black">Black</div>
+                    <div class="slider-item green">Green</div>
+                </div>
+                <div class="wick"></div> <!-- Add the wick here -->
+            </div>
+
+            <!-- Betting Options -->
+            <form id="roulette-form">
+                <label for="bet-amount">Bet Amount:</label>
+                <input type="number" id="bet-amount" name="bet-amount" placeholder="Enter coins to bet" required>
+
+                <label for="bet-type">Choose Your Bet:</label>
+                <select id="bet-type" name="bet-type" required>
+                    <option value="red">Red</option>
+                    <option value="black">Black</option>
+                    <option value="green">Green</option>
+                </select>
+
+                <button type="submit" class="btn">Place Bet</button>
+            </form>
+
+            <!-- Result Display -->
+            <div id="result"></div>
+        </main>
+    </div>
+
+    <script>
+        let currentPosition = 0; // Track the current position of the slider
+
+        // Function to handle slider animation
+        function startSliderAnimation(outcome) {
+            const sliderTrack = document.getElementById('slider-track');
+            const sliderItems = document.querySelectorAll('.slider-item');
+            const containerWidth = document.querySelector('.slider-container').offsetWidth;
+            const itemWidth = containerWidth / 5; // Since we have 5 items per view
+            const totalItems = sliderItems.length;
+            const outcomeIndex = Array.from(sliderItems).findIndex(item => item.textContent.toLowerCase() === outcome);
+
+            // Calculate the offset for the outcome
+            const offset = outcomeIndex * itemWidth;
+
+            // Calculate the new position
+            const newPosition = -(offset + (totalItems * itemWidth)); // Spin fewer times for a shorter effect
+
+            // Start the animation
+            sliderTrack.style.transition = 'transform 2s cubic-bezier(0.25, 1, 0.5, 1)'; // Adjust duration to 2s
+            sliderTrack.style.transform = `translateX(${newPosition}px)`;
+
+            // Reset the slider after animation (loop effect)
+            setTimeout(() => {
+                sliderTrack.style.transition = 'none';
+                sliderTrack.style.transform = `translateX(0)`;
+                currentPosition = 0;
+            }, 2000); // Match the duration of the CSS transition
+        }
+
+        // Add an event listener to the roulette form
+        const rouletteForm = document.getElementById('roulette-form');
+        rouletteForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const betAmount = document.getElementById('bet-amount').value;
+            const betType = document.getElementById('bet-type').value;
+
+            try {
+                const response = await fetch('/roulette', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ betAmount, betType }),
+                });
+
+                const result = await response.json();
+
+                // Start the slider animation with the outcome
+                startSliderAnimation(result.outcome);
+
+                // Update balance and display the result
+                document.getElementById('balance').textContent = result.newBalance;
+                document.getElementById('result').innerHTML = `<p>${result.message}</p>`;
+            } catch (error) {
+                document.getElementById('result').innerHTML = `<p>Error: Unable to process your bet. Please try again.</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
