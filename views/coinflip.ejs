@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coin Flip Duel - Xiaojie Gamble</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body class="gamepage">
+    <header>
+        <div class="header-left">Xiaojie Gamble</div>
+    </header>
+
+    <div class="top-right-container">
+        <div class="balance-display">
+            Balance: <span id="balance"><%= user.balance %></span> coins
+        </div>
+    </div>
+
+    <div class="game-container">
+        <!-- Sidebar -->
+        <aside class="game-tab">
+            <ul>
+                <li><a href="/game1">Roulette</a></li>
+                <li><a href="/dice">Dice</a></li>
+                <li><a href="/plinko">Plinko</a></li>
+                <li><a href="/coinflip" class="active">Coin Flip</a></li>
+            </ul>
+        </aside>
+
+        <!-- Game Content -->
+        <main class="game-content">
+            <h1>Coin Flip Duel</h1>
+            <div id="game-message"></div>
+            <form id="coinflip-form">
+                <input type="number" id="bet-amount" placeholder="Enter bet amount" required>
+                <select id="choice" required>
+                    <option value="heads">Heads</option>
+                    <option value="tails">Tails</option>
+                </select>
+                <button type="submit" class="btn">Flip Coin</button>
+            </form>
+            <div id="coinflip-outcome"></div>
+        </main>
+    </div>
+
+    <script>
+        const form = document.getElementById('coinflip-form');
+        const betAmountInput = document.getElementById('bet-amount');
+        const choiceInput = document.getElementById('choice');
+        const gameMessage = document.getElementById('game-message');
+        const coinflipOutcome = document.getElementById('coinflip-outcome');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const betAmount = betAmountInput.value;
+            const choice = choiceInput.value;
+
+            fetch('/coinflip', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ betAmount, choice })
+            })
+            .then(response => response.json())
+            .then(data => {
+                gameMessage.textContent = data.message;
+                coinflipOutcome.textContent = `Outcome: ${data.outcome}`;
+                document.getElementById('balance').textContent = data.newBalance;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
