@@ -373,21 +373,24 @@ app.post('/plinko', (req, res) => {
 
 function simulatePlinkoDrop() {
     const slots = [
-        { slot: '1', multiplier: 14 },
-        { slot: '2', multiplier: 5 },
-        { slot: '3', multiplier: 1.5 },
-        { slot: '4', multiplier: 1 },
-        { slot: '5', multiplier: 0.5 },
-        { slot: '6', multiplier: 0.5 },
-        { slot: '7', multiplier: 0.5 },
-        { slot: '8', multiplier: 1 },
-        { slot: '9', multiplier: 1.5 },
-        { slot: '10', multiplier: 5 },
-        { slot: '11', multiplier: 14 }
+        { slot: '1', multiplier: 0.5, probability: 71.5 },
+        { slot: '2', multiplier: 1, probability: 20 },
+        { slot: '3', multiplier: 1.5, probability: 5 },
+        { slot: '4', multiplier: 5, probability: 2 },
+        { slot: '5', multiplier: 14, probability: 0.5 }
     ];
 
-    const randomIndex = Math.floor(Math.random() * slots.length);
-    return slots[randomIndex];
+    const random = Math.random() * 100;
+    let cumulativeProbability = 0;
+
+    for (const slot of slots) {
+        cumulativeProbability += slot.probability;
+        if (random <= cumulativeProbability) {
+            return slot;
+        }
+    }
+
+    return slots[0]; // Default to the first slot if no match (shouldn't happen)
 }
 
 // Other routes or a catch-all 404 handler
